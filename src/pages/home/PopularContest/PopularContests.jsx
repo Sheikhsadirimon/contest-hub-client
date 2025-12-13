@@ -24,7 +24,8 @@ const PopularContests = () => {
         
         const approvedContests = response.data.filter(
           (contest) => contest.status === "approved"
-        );
+        )
+        .slice(0, 6);;
         setContests(approvedContests);
       } catch (error) {
         console.error("Error fetching contests:", error);
@@ -63,7 +64,7 @@ const PopularContests = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {contests.map((contest, index) => (
               <div
                 key={contest._id}

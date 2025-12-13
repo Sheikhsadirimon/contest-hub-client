@@ -23,7 +23,7 @@ const AllContests = () => {
     const fetchContests = async () => {
       try {
         const response = await axiosInstance.get("/contests");
-        // Assuming only approved contests are returned from backend
+        
         const approvedContests = response.data.filter(contest => contest.status === "approved");
         setContests(approvedContests);
         setFilteredContests(approvedContests);
@@ -37,7 +37,7 @@ const AllContests = () => {
     fetchContests();
   }, [axiosInstance]);
 
-  // Extract unique categories
+  
   const categories = ["All", ...new Set(contests.map(c => c.category))];
 
   const handleTabChange = (category) => {
@@ -69,7 +69,7 @@ const AllContests = () => {
           </p>
         </div>
 
-        {/* Tabs */}
+       
         <div className="flex justify-center mb-12">
           <div className="tabs tabs-boxed bg-base-300 p-2 rounded-xl shadow-lg">
             {categories.map((category) => (
@@ -78,8 +78,8 @@ const AllContests = () => {
                 onClick={() => handleTabChange(category)}
                 className={`tab tab-lg font-semibold transition-all ${
                   activeTab === category
-                    ? "tab-active bg-primary text-primary-content"
-                    : "text-base-content hover:bg-base-200"
+                    ? "tab-active rounded-xl bg-primary text-primary-content"
+                    : "text-base-content rounded-xl hover:bg-base-200"
                 }`}
               >
                 {category === "All" ? "All Contests" : category}
@@ -88,7 +88,7 @@ const AllContests = () => {
           </div>
         </div>
 
-        {/* Contests Grid */}
+        
         {filteredContests.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-xl text-base-content/60">No contests found in this category.</p>
