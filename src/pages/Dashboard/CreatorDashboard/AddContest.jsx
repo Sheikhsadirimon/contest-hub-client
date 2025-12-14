@@ -5,10 +5,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
 
 const AddContest = () => {
   const axiosSecure = useAxiosSecure();
   const [deadline, setDeadline] = useState(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -40,6 +42,7 @@ const AddContest = () => {
       });
       reset();
       setDeadline(null);
+      navigate("/dashboard/my-contests");
     } catch (error) {
       console.error("Contest creation failed:", error);
       Swal.fire({
@@ -137,7 +140,7 @@ const AddContest = () => {
                   <div className="input-group">
                     <span className="bg-primary text-primary-content text-lg font-bold">$</span>
                     <input
-                      type="text"
+                      type="number"
                       placeholder="5,000"
                       className={`input input-bordered input-lg flex-1 ${errors.prize ? "input-error" : ""}`}
                       {...register("prize", { required: "Prize money is required" })}

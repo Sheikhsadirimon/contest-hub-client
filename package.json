@@ -21,6 +21,7 @@
     "ldrs": "^1.1.9",
     "lucide-react": "^0.561.0",
     "react": "^19.2.0",
+    "react-countdown": "^2.3.6",
     "react-datepicker": "^9.0.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.68.0",

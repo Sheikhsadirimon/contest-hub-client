@@ -11,6 +11,8 @@ import Dashboard from "../layouts/Dashboard";
 import ManageUsers from "../pages/Dashboard/AdminDashboard/ManageUsers";
 import ManageContests from "../pages/Dashboard/AdminDashboard/ManageContests";
 import AddContest from "../pages/Dashboard/CreatorDashboard/AddContest";
+import MyContests from "../pages/Dashboard/CreatorDashboard/MyContests";
+import ContestDetails from "../pages/ContestDetails/ContestDetails";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-contests",
         element: <AllContests></AllContests>,
+      },
+      {
+        path: "contest/:id",
+        element:<PrivateRoute><ContestDetails></ContestDetails></PrivateRoute>
       },
       {
         path: "/auth",
@@ -65,6 +71,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/add-contest",
         element: <AddContest></AddContest>,
+      },
+      {
+        path: "/dashboard/my-contests",
+        element: <MyContests></MyContests>,
       },
     ],
   },
