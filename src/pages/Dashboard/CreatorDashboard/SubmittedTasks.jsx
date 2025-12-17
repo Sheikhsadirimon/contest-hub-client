@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import Countdown from "react-countdown";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -48,12 +49,10 @@ const SubmittedTasks = () => {
           photoURL: winnerPhotoURL,
         },
       });
-      return res.data; // Make sure backend returns { success: true }
+      return res.data;
     },
     onMutate: async (variables) => {
-      // Optimistic update
       await queryClient.cancelQueries(["creatorContests"]);
-
       const previousContests = queryClient.getQueryData(["creatorContests"]);
 
       queryClient.setQueryData(["creatorContests"], (old) =>
@@ -74,7 +73,6 @@ const SubmittedTasks = () => {
       return { previousContests };
     },
     onError: (err, variables, context) => {
-      // Rollback on error
       queryClient.setQueryData(["creatorContests"], context.previousContests);
       Swal.fire(
         "Error",
@@ -98,7 +96,7 @@ const SubmittedTasks = () => {
     if (contest?.winner) {
       Swal.fire(
         "Already Declared",
-        "A winner has already been declared for this contest.",
+        "A winner has already been declared.",
         "info"
       );
       return;
@@ -125,6 +123,18 @@ const SubmittedTasks = () => {
         });
       }
     });
+  };
+
+  const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) return null; // shouldn't happen
+    return (
+      <div className="text-center text-sm text-base-content/70">
+        <p>Contest running...</p>
+        <p className="font-bold">
+          {days}d {hours}h {minutes}m {seconds}s
+        </p>
+      </div>
+    );
   };
 
   if (contestsLoading || submissionsLoading) {
@@ -162,6 +172,11 @@ const SubmittedTasks = () => {
                   const contest = contests.find(
                     (c) => c._id === submission.contestId
                   );
+                  const deadlinePassed =
+                    contest?.deadline &&
+                    new Date(contest.deadline) < new Date();
+                  const hasWinner = !!contest?.winner;
+
                   return (
                     <tr key={submission._id}>
                       <th>{index + 1}</th>
@@ -174,7 +189,7 @@ const SubmittedTasks = () => {
                       <td>
                         <button
                           onClick={() => setSelectedSubmission(submission)}
-                          className="btn btn-primary btn-sm"
+                          className="btn btn-primary btn-sm text-nowrap"
                         >
                           View Submission
                         </button>
@@ -235,18 +250,48 @@ const SubmittedTasks = () => {
                 >
                   Close
                 </button>
-                {!contests.find((c) => c._id === selectedSubmission.contestId)
-                  ?.winner && (
-                  <button
-                    onClick={() => handleDeclareWinner(selectedSubmission)}
-                    className="btn btn-success"
-                    disabled={declareWinnerMutation.isLoading}
-                  >
-                    {declareWinnerMutation.isLoading
-                      ? "Declaring..."
-                      : "Declare Winner"}
-                  </button>
-                )}
+
+                {(() => {
+                  const contest = contests.find(
+                    (c) => c._id === selectedSubmission.contestId
+                  );
+                  const deadlinePassed =
+                    contest?.deadline &&
+                    new Date(contest.deadline) < new Date();
+                  const hasWinner = !!contest?.winner;
+
+                  if (hasWinner) {
+                    return (
+                      <div className="alert alert-success shadow-lg">
+                        <span>Winner Already Declared</span>
+                      </div>
+                    );
+                  }
+
+                  if (!deadlinePassed) {
+                    return (
+                      <div className="text-center">
+                        <p className="mb-2">Contest is still running</p>
+                        <Countdown
+                          date={new Date(contest.deadline)}
+                          renderer={countdownRenderer}
+                        />
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <button
+                      onClick={() => handleDeclareWinner(selectedSubmission)}
+                      className="btn btn-success"
+                      disabled={declareWinnerMutation.isLoading}
+                    >
+                      {declareWinnerMutation.isLoading
+                        ? "Declaring..."
+                        : "Declare Winner"}
+                    </button>
+                  );
+                })()}
               </div>
             </div>
             <form method="dialog" className="modal-backdrop">
