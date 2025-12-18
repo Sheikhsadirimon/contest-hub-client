@@ -1,12 +1,32 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 import { Zap } from "lucide-react";
 
 const Navbar = () => {
-  const { user, logOut } = useAuth();
+  const { user: authUser, logOut } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [backendUser, setBackendUser] = useState(null); // User data from backend
+
+  // Fetch user profile from backend whenever authUser changes
+  useEffect(() => {
+    if (authUser?.uid) {
+      axiosSecure
+        .get(`/user/${authUser.uid}`)
+        .then((res) => {
+          setBackendUser(res.data);
+        })
+        .catch((err) => {
+          console.error("Failed to fetch backend user:", err);
+        });
+    } else {
+      setBackendUser(null);
+    }
+  }, [authUser?.uid, axiosSecure]);
 
   useEffect(() => {
     document.querySelector("html")?.setAttribute("data-theme", theme);
@@ -33,8 +53,20 @@ const Navbar = () => {
     </>
   );
 
+  // Prioritize backend data, fallback to Firebase auth
+  const displayName =
+    backendUser?.displayName ||
+    authUser?.displayName ||
+    authUser?.email ||
+    "User";
+
+  const photoURL =
+    backendUser?.photoURL ||
+    authUser?.photoURL ||
+    "https://img.icons8.com/?size=100&id=21441&format=png&color=000000";
+
   return (
-    <div className="navbar bg-base-100  lg:px-10 container mx-auto ">
+    <div className="navbar bg-base-100 lg:px-10 container mx-auto">
       <div className="navbar-start">
         <div className="dropdown dropdown-right">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -77,7 +109,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end gap-2">
-        {user ? (
+        {authUser ? (
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -85,13 +117,7 @@ const Navbar = () => {
               className="avatar online rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 cursor-pointer"
             >
               <div className="w-10 rounded-full">
-                <img
-                  src={
-                    user.photoURL ||
-                    `https://img.icons8.com/?size=100&id=21441&format=png&color=000000`
-                  }
-                  alt="User avatar"
-                />
+                <img src={photoURL} alt="User avatar" />
               </div>
             </div>
 
@@ -100,7 +126,7 @@ const Navbar = () => {
               className="menu dropdown-content bg-base-100 rounded-box z-50 mt-2 w-48 p-2 shadow"
             >
               <li className="px-3 py-2 text-sm font-medium text-base-700">
-                {user.displayName || user.email}
+                {displayName}
               </li>
               <div className="divider my-1"></div>
               <li>
@@ -121,13 +147,13 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <Link
-              to="/auth/login"
-              className="btn btn-primary"
-            >
+            <Link to="/auth/login" className="btn btn-primary">
               Login
             </Link>
-            <Link to="/auth/signup" className="btn btn-outline hidden md:inline-flex">
+            <Link
+              to="/auth/signup"
+              className="btn btn-outline hidden md:inline-flex"
+            >
               Register
             </Link>
           </div>

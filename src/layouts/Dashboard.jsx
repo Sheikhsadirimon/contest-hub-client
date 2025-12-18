@@ -1,5 +1,5 @@
 // src/pages/Dashboard/Dashboard.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
@@ -8,34 +8,37 @@ import { Home } from "lucide-react";
 import Loading from "../components/Loading/Loading";
 
 const Dashboard = () => {
-  const { user, logOut, loading: authLoading } = useAuth(); // ← Only 'user'
+  const { user: authUser, logOut, loading: authLoading } = useAuth(); // Only authUser from useAuth
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
-  // Fetch user role from MongoDB
+  const [backendUser, setBackendUser] = useState(null);
+
+  // Fetch user data from backend users collection
   const {
     data: userData,
     isLoading: roleLoading,
     error: roleError,
   } = useQuery({
-    queryKey: ["userRole", user?.uid],
+    queryKey: ["userRole", authUser?.uid],
     queryFn: async () => {
-      if (!user?.uid) throw new Error("No user UID");
-      const res = await axiosSecure.get(`/user/${user.uid}`);
+      if (!authUser?.uid) throw new Error("No user UID");
+      const res = await axiosSecure.get(`/user/${authUser.uid}`);
+      setBackendUser(res.data); // Save to state for navbar
       return res.data;
     },
-    enabled: !!user?.uid,
+    enabled: !!authUser?.uid,
     staleTime: 5 * 60 * 1000,
   });
 
   const userRole = userData?.role || "user";
 
-  // Safe navigation in useEffect
+  // Safe navigation
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (!authLoading && !authUser) {
       navigate("/login");
     }
-  }, [authLoading, user, navigate]);
+  }, [authLoading, authUser, navigate]);
 
   useEffect(() => {
     if (roleError) {
@@ -72,18 +75,26 @@ const Dashboard = () => {
   const links = getLinks();
 
   const handleLogout = async () => {
-  try {
-    await logOut();
-  } catch (error) {
-    console.error("Logout error:", error);
-  } finally {
-    // Force redirect to home, no matter what
-    window.location.href = "/";
-  }
-};
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      window.location.href = "/";
+    }
+  };
 
-  const displayName = user?.displayName || user?.email?.split("@")[0] || "User";
-  const photoURL = user?.photoURL || "https://i.ibb.co.com/4p5dQ5X/user.png";
+  // Use backend data, fallback to authUser
+  const displayName =
+    backendUser?.displayName ||
+    authUser?.displayName ||
+    authUser?.email?.split("@")[0] ||
+    "User";
+
+  const photoURL =
+    backendUser?.photoURL ||
+    authUser?.photoURL ||
+    "https://i.ibb.co.com/4p5dQ5X/user.png";
 
   return (
     <div className="drawer lg:drawer-open min-h-screen bg-base-200">
