@@ -14,7 +14,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyProfile = () => {
-  const { user, loading: authLoading } = useAuth(); // ← Only 'user'
+  const { user, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
@@ -89,13 +89,11 @@ const MyProfile = () => {
     });
   };
 
-  // Initialize form with current data
+  // Set form values when profile or user loads
   useEffect(() => {
-    if (profile || user) {
-      setName(profile.displayName || user?.displayName || "");
-      setPhotoURL(profile.photoURL || user?.photoURL || "");
-      setAddress(profile.address || "");
-    }
+    setName(profile.displayName || user?.displayName || "");
+    setPhotoURL(profile.photoURL || user?.photoURL || "");
+    setAddress(profile.address || "");
   }, [profile, user]);
 
   if (authLoading || profileLoading) {
@@ -117,7 +115,7 @@ const MyProfile = () => {
         <div className="space-y-8">
           <div className="card bg-gradient-to-br from-indigo-50 to-purple-100 shadow-2xl p-10 text-center">
             <div className="avatar mb-6">
-              <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-4 mx-auto">
+              <div className="w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-4">
                 <img
                   src={
                     photoURL ||
@@ -179,52 +177,59 @@ const MyProfile = () => {
         <div className="card bg-base-100 shadow-2xl">
           <div className="card-body">
             <h3 className="text-2xl font-bold mb-8">Update Your Profile</h3>
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-6">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-medium">Name</span>
+                  <span className="label-text text-lg font-medium">Name</span>
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="input input-bordered input-lg"
+                  className="input input-bordered input-lg w-full"
                   placeholder="Enter your name"
                 />
               </div>
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-medium">Photo URL</span>
+                  <span className="label-text text-lg font-medium">
+                    Photo URL
+                  </span>
                 </label>
                 <input
                   type="url"
                   value={photoURL}
                   onChange={(e) => setPhotoURL(e.target.value)}
-                  className="input input-bordered input-lg"
+                  className="input input-bordered input-lg w-full"
                   placeholder="https://example.com/your-photo.jpg"
                 />
               </div>
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-medium">Address</span>
+                  <span className="label-text text-lg font-medium">
+                    Address
+                  </span>
                 </label>
                 <textarea
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="textarea textarea-bordered h-32"
+                  className="textarea textarea-bordered textarea-lg w-full"
+                  rows="4"
                   placeholder="Your address (city, country)"
                 />
               </div>
 
-              <button
-                onClick={handleSave}
-                disabled={updateMutation.isLoading}
-                className="btn btn-primary btn-lg w-full mt-8"
-              >
-                {updateMutation.isLoading ? "Saving..." : "Save Profile"}
-              </button>
+              <div className="mt-8">
+                <button
+                  onClick={handleSave}
+                  disabled={updateMutation.isLoading}
+                  className="btn btn-primary btn-lg w-full"
+                >
+                  {updateMutation.isLoading ? "Saving..." : "Save Profile"}
+                </button>
+              </div>
             </div>
           </div>
         </div>

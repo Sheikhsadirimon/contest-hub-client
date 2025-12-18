@@ -1,20 +1,19 @@
 // src/pages/Dashboard/Dashboard.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { Home } from "lucide-react";
 import Loading from "../components/Loading/Loading";
 
 const Dashboard = () => {
-  const { user: authUser, logOut, loading: authLoading } = useAuth(); // Only authUser from useAuth
+  const { user: authUser, logOut, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const [backendUser, setBackendUser] = useState(null);
-
-  // Fetch user data from backend users collection
+  // Fetch user data from backend
   const {
     data: userData,
     isLoading: roleLoading,
@@ -24,7 +23,6 @@ const Dashboard = () => {
     queryFn: async () => {
       if (!authUser?.uid) throw new Error("No user UID");
       const res = await axiosSecure.get(`/user/${authUser.uid}`);
-      setBackendUser(res.data); // Save to state for navbar
       return res.data;
     },
     enabled: !!authUser?.uid,
@@ -45,6 +43,15 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, [roleError, navigate]);
+
+  // Invalidate user query on mount/focus to refresh after profile update
+  useEffect(() => {
+    const handleFocus = () => {
+      queryClient.invalidateQueries(["userRole", authUser?.uid]);
+    };
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, [authUser?.uid, queryClient]);
 
   if (authLoading || roleLoading) {
     return <Loading />;
@@ -84,15 +91,15 @@ const Dashboard = () => {
     }
   };
 
-  // Use backend data, fallback to authUser
+  // Use backend data first, fallback to authUser
   const displayName =
-    backendUser?.displayName ||
+    userData?.displayName ||
     authUser?.displayName ||
     authUser?.email?.split("@")[0] ||
     "User";
 
   const photoURL =
-    backendUser?.photoURL ||
+    userData?.photoURL ||
     authUser?.photoURL ||
     "https://i.ibb.co.com/4p5dQ5X/user.png";
 
