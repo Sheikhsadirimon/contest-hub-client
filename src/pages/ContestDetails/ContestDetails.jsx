@@ -207,7 +207,7 @@ const ContestDetails = () => {
           </figure>
 
           <div className="card-body p-8 md:p-12">
-            {/* Stats */}
+            {/* Status */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 text-center">
               <div>
                 <p className="text-lg text-base-content/70">Prize Money</p>
@@ -233,7 +233,7 @@ const ContestDetails = () => {
               />
             )}
 
-            {/* Description and Tasks */}
+            {/* description and Tasks */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 my-12">
               <div>
                 <h3 className="text-3xl font-bold mb-6">Contest Description</h3>
@@ -269,7 +269,7 @@ const ContestDetails = () => {
               </div>
             )}
 
-            {/* Action Buttons */}
+            {/* Action buttons */}
             <div className="flex flex-col md:flex-row justify-center gap-8 mt-12">
               {!isRegularUser && !isEnded && !hasWinner && (
                 <div className="alert alert-info shadow-lg max-w-md">
@@ -328,7 +328,7 @@ const ContestDetails = () => {
         </div>
       </div>
 
-      {/* Submit Task Modal */}
+      {/* submit task modal */}
       {showSubmitModal && (
         <dialog open className="modal modal-bottom sm:modal-middle">
           <div className="modal-box max-w-2xl">

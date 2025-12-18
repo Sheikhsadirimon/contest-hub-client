@@ -36,7 +36,7 @@ const Leaderboard = () => {
           </p>
         </div>
 
-        {/* Podium for Top 3 */}
+        {/* Podium sec */}
         {top3.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             {/* 2nd Place */}
@@ -70,7 +70,7 @@ const Leaderboard = () => {
               </div>
             )}
 
-            {/* 1st Place - Champion */}
+            {/* 1st Place */}
             {top3[0] && (
               <div className="order-1 md:order-2 pb-5 flex flex-col items-center scale-110">
                 <div className="relative">
@@ -102,7 +102,7 @@ const Leaderboard = () => {
               </div>
             )}
 
-            {/* 3rd Place */}
+            {/* 3rd Place- */}
             {top3[2] && (
               <div className="order-3 md:order-3 flex flex-col items-center">
                 <div className="relative">
@@ -135,7 +135,7 @@ const Leaderboard = () => {
           </div>
         )}
 
-        {/* Rest of the leaderboard */}
+        {/* rest of the leaderboard */}
         {rest.length > 0 && (
           <div className="card bg-base-100 shadow-2xl">
             <div className="card-body">

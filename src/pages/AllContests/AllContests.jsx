@@ -96,7 +96,7 @@ const AllContests = () => {
           </p>
         </div>
 
-        {/* Category Tabs */}
+        {/* category Tabs */}
         <div className="flex justify-center mb-12">
           <div className="tabs tabs-boxed bg-base-300 p-2 rounded-xl shadow-lg">
             {categories.map((category) => (
@@ -115,7 +115,7 @@ const AllContests = () => {
           </div>
         </div>
 
-        {/* Contests Grid */}
+        {/* Contests grid */}
         {filteredContests.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-xl text-base-content/60">

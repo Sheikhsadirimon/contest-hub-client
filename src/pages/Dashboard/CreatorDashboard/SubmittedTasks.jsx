@@ -195,7 +195,7 @@ const SubmittedTasks = () => {
           </div>
         )}
 
-        {/* Submission Detail Modal */}
+        {/* Submission detail */}
         {selectedSubmission && (
           <dialog open className="modal modal-bottom sm:modal-middle">
             <div className="modal-box">

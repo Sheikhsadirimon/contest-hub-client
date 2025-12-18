@@ -153,13 +153,13 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Main Content */}
+        {/* main content */}
         <div className="flex-1 p-6 lg:p-10">
           <Outlet />
         </div>
       </div>
 
-      {/* Sidebar */}
+      {/* sidebar */}
       <div className="drawer-side">
         <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
         <aside className="w-72 bg-base-100 min-h-full shadow-xl">

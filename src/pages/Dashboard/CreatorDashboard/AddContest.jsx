@@ -145,7 +145,7 @@ const AddContest = () => {
                   )}
                 </div>
 
-                {/* Entry Fee */}
+                {/* entry Fee */}
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text font-semibold text-lg">
@@ -177,7 +177,7 @@ const AddContest = () => {
                   )}
                 </div>
 
-                {/* Prize Money */}
+                {/* Prize money */}
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text font-semibold text-lg">
@@ -207,9 +207,9 @@ const AddContest = () => {
                 </div>
               </div>
 
-              {/* Right Column */}
+              {/* == Right Column == */}
               <div className="space-y-6">
-                {/* Description */}
+                {/* description */}
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text font-semibold text-lg">
@@ -232,7 +232,7 @@ const AddContest = () => {
                   )}
                 </div>
 
-                {/* Task Instruction */}
+                {/* Task */}
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text font-semibold text-lg">

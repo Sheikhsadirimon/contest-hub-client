@@ -190,7 +190,6 @@ const MyContests = () => {
           </div>
         )}
 
-        {/* Edit Modal */}
         {selectedContest && (
           <dialog open className="modal modal-bottom sm:modal-middle">
             <div className="modal-box max-w-4xl">
@@ -201,7 +200,7 @@ const MyContests = () => {
                 onSubmit={handleUpdate}
                 className="grid grid-cols-1 lg:grid-cols-2 gap-8"
               >
-                {/* Left Column */}
+                {/* Left column */}
                 <div className="space-y-6">
                   <div className="form-control">
                     <label className="label">
@@ -347,7 +346,7 @@ const MyContests = () => {
                   </div>
                 </div>
 
-                {/* Buttons */}
+                {/* buttons */}
                 <div className="lg:col-span-2 flex justify-end gap-4 mt-8">
                   <button
                     type="button"

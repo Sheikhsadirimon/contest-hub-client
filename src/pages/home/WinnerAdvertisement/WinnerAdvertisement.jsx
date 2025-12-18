@@ -15,8 +15,6 @@ const WinnerAdvertisement = () => {
     },
   });
 
-  const totalWinners = recentWinners.length;
-
   if (isLoading) {
     return <Loading></Loading>;
   }

@@ -105,7 +105,7 @@ const Banner = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Search by category (e.g., Design, Writing, Gaming)..."
-              className="input input-lg w-full pl-14 pr-6 bg-white/10 backdrop-blur-md text-white placeholder-gray-400 border border-white/20 rounded-full focus:outline-none focus:ring-4 focus:ring-primary/60 focus:bg-white/20 transition-all duration-300 shadow-2xl"
+              className="input input-lg w-full pl-14 pr-6 bg-white/10  text-white placeholder-gray-400 border border-white/20 rounded-full focus:outline-none focus:ring-4 focus:ring-primary/60 focus:bg-white/20 transition-all duration-300 shadow-2xl"
             />
           </div>
 
