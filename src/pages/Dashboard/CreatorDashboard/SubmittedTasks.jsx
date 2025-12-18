@@ -47,6 +47,7 @@ const SubmittedTasks = () => {
           uid: winnerUid,
           name: winnerName,
           photoURL: winnerPhotoURL,
+          declaredAt: new Date().toISOString(), // ← This adds the timestamp
         },
       });
       return res.data;
@@ -64,6 +65,7 @@ const SubmittedTasks = () => {
                   uid: variables.winnerUid,
                   name: variables.winnerName,
                   photoURL: variables.winnerPhotoURL,
+                  declaredAt: new Date().toISOString(), // Optimistic timestamp
                 },
               }
             : c
@@ -126,7 +128,7 @@ const SubmittedTasks = () => {
   };
 
   const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
-    if (completed) return null; // shouldn't happen
+    if (completed) return null;
     return (
       <div className="text-center text-sm text-base-content/70">
         <p>Contest running...</p>
@@ -172,10 +174,6 @@ const SubmittedTasks = () => {
                   const contest = contests.find(
                     (c) => c._id === submission.contestId
                   );
-                  const deadlinePassed =
-                    contest?.deadline &&
-                    new Date(contest.deadline) < new Date();
-                  const hasWinner = !!contest?.winner;
 
                   return (
                     <tr key={submission._id}>

@@ -81,7 +81,7 @@ const WinnerAdvertisement = () => {
 
         <div className="text-center mt-16">
           <p className="text-3xl font-bold mb-4">
-            {totalWinners}+ Talented Winners So Far!
+            3 Talented Recent Winners!
           </p>
           <p className="text-xl opacity-90">
             Your name could be next on this wall of fame.

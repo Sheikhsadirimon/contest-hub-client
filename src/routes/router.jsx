@@ -17,6 +17,9 @@ import SubmittedTasks from "../pages/Dashboard/CreatorDashboard/SubmittedTasks";
 import MyParticipated from "../pages/Dashboard/UserDashboard/MyParticipated";
 import MyWinningContests from "../pages/Dashboard/UserDashboard/MyWinningContests";
 import MyProfile from "../pages/Dashboard/UserDashboard/MyProfile";
+import Leaderboard from "../pages/Leaderboard/Leaderboard";
+import FAQ from "../pages/FAQ/FAQ";
+import HowItWorks from "../pages/HowItWorks/HowItWorks";
 
 export const router = createBrowserRouter([
   {
@@ -37,12 +40,25 @@ export const router = createBrowserRouter([
         element: <AllContests></AllContests>,
       },
       {
+        path: "/leaderboard",
+        element: <Leaderboard></Leaderboard>,
+      },
+      {
+        path: "/how-it-works",
+        element: <HowItWorks></HowItWorks>,
+      },
+      {
+        path: "/faq",
+        element: <FAQ></FAQ>,
+      },
+      {
         path: "contest/:id",
         element: (
           <PrivateRoute>
             <ContestDetails></ContestDetails>
           </PrivateRoute>
         ),
+        errorElement: <ErrorPage></ErrorPage>
       },
       {
         path: "/auth",

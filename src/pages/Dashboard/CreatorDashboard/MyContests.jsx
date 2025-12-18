@@ -130,7 +130,7 @@ const MyContests = () => {
                     <th>{index + 1}</th>
                     <td className="font-semibold">{contest.name}</td>
                     <td>
-                      <span className="text-primary font-bold">{contest.prize}</span>
+                      <span className="text-primary font-bold">${contest.prize}</span>
                     </td>
                     <td>
                       <div

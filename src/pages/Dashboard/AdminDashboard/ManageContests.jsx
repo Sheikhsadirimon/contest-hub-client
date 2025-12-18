@@ -105,7 +105,7 @@ const ManageContests = () => {
                   <td>{contest.creatorEmail || "Unknown"}</td>
                   <td>
                     <span className="font-bold text-primary">
-                      {contest.prize}
+                      ${contest.prize}
                     </span>
                   </td>
                   <td>

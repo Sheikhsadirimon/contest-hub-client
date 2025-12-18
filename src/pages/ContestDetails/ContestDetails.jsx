@@ -9,7 +9,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ContestDetails = () => {
   const { id } = useParams();
-  const { user, loading: authLoading } = useAuth();
+  const { user: authUser, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const [showSubmitModal, setShowSubmitModal] = useState(false);
@@ -27,14 +27,15 @@ const ContestDetails = () => {
     },
   });
 
-  const { data: userData, isLoading: roleLoading } = useQuery({
-    queryKey: ["userRole", user?.uid],
+  // Fetch latest user data from backend (for accurate name/photo in submission)
+  const { data: backendUser = {}, isLoading: userLoading } = useQuery({
+    queryKey: ["backendUser", authUser?.uid],
     queryFn: async () => {
-      if (!user?.uid) return null;
-      const res = await axiosSecure.get(`/user/${user.uid}`);
+      if (!authUser?.uid) return {};
+      const res = await axiosSecure.get(`/user/${authUser.uid}`);
       return res.data;
     },
-    enabled: !!user?.uid,
+    enabled: !!authUser?.uid,
   });
 
   const {
@@ -42,13 +43,13 @@ const ContestDetails = () => {
     isLoading: paymentLoading,
     refetch: refetchPayment,
   } = useQuery({
-    queryKey: ["payment", user?.uid, id],
+    queryKey: ["payment", authUser?.uid, id],
     queryFn: async () => {
-      if (!user?.uid) return false;
-      const res = await axiosSecure.get(`/check-payment/${user.uid}/${id}`);
+      if (!authUser?.uid) return false;
+      const res = await axiosSecure.get(`/check-payment/${authUser.uid}/${id}`);
       return res.data.paid;
     },
-    enabled: !!user?.uid,
+    enabled: !!authUser?.uid,
   });
 
   // Check submission status
@@ -57,22 +58,29 @@ const ContestDetails = () => {
     isLoading: submissionLoading,
     refetch: refetchSubmission,
   } = useQuery({
-    queryKey: ["submission", user?.uid, id],
+    queryKey: ["submission", authUser?.uid, id],
     queryFn: async () => {
-      if (!user?.uid) return false;
-      const res = await axiosSecure.get(`/check-submission/${user.uid}/${id}`);
+      if (!authUser?.uid) return false;
+      const res = await axiosSecure.get(
+        `/check-submission/${authUser.uid}/${id}`
+      );
       return res.data.submitted;
     },
-    enabled: !!user?.uid && paymentStatus === true,
+    enabled: !!authUser?.uid && paymentStatus === true,
   });
 
-  const userRole = userData?.role || "user";
+  const userRole = backendUser?.role || "user";
   const isRegularUser = userRole === "user";
   const isEnded = contest?.deadline && new Date(contest.deadline) < new Date();
   const hasWinner = !!contest?.winner;
 
   const participantCount = contest?.participants || 0;
   const hasSubmitted = submissionStatus === true;
+
+  // Use backend user data for submission
+  const currentUserName =
+    backendUser?.displayName || authUser?.displayName || authUser?.email;
+  const currentPhotoURL = backendUser?.photoURL || authUser?.photoURL || "";
 
   // Handle payment success
   useEffect(() => {
@@ -120,10 +128,10 @@ const ContestDetails = () => {
     try {
       await axiosSecure.post("/submissions", {
         contestId: id,
-        userUid: user.uid,
-        userEmail: user.email,
-        userName: user.displayName,
-        userPhotoURL: user.photoURL || "",
+        userUid: authUser.uid,
+        userEmail: authUser.email,
+        userName: currentUserName,
+        userPhotoURL: currentPhotoURL,
         task: taskSubmission,
         submittedAt: new Date().toISOString(),
       });
@@ -131,8 +139,6 @@ const ContestDetails = () => {
       Swal.fire("Success!", "Task submitted successfully!", "success");
       setShowSubmitModal(false);
       setTaskSubmission("");
-
-      // Immediately update submission status without reload
       refetchSubmission();
     } catch (error) {
       console.error("Submit task error:", error);
@@ -179,7 +185,7 @@ const ContestDetails = () => {
   if (
     contestLoading ||
     authLoading ||
-    roleLoading ||
+    userLoading ||
     paymentLoading ||
     submissionLoading
   ) {
@@ -273,7 +279,6 @@ const ContestDetails = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col md:flex-row justify-center gap-8 mt-12">
-              {/* Only normal users can participate */}
               {!isRegularUser && !isEnded && !hasWinner && (
                 <div className="alert alert-info shadow-lg max-w-md">
                   <span className="text-lg font-medium">
@@ -282,7 +287,6 @@ const ContestDetails = () => {
                 </div>
               )}
 
-              {/* Register & Pay */}
               {isRegularUser && !isEnded && !paymentStatus && !hasWinner && (
                 <button
                   onClick={handlePayment}
@@ -292,7 +296,6 @@ const ContestDetails = () => {
                 </button>
               )}
 
-              {/* Submit Task - active */}
               {isRegularUser &&
                 !isEnded &&
                 paymentStatus &&
@@ -306,7 +309,6 @@ const ContestDetails = () => {
                   </button>
                 )}
 
-              {/* Task Submitted - disabled */}
               {isRegularUser &&
                 !isEnded &&
                 paymentStatus &&
@@ -320,7 +322,6 @@ const ContestDetails = () => {
                   </button>
                 )}
 
-              {/* Contest ended or winner declared */}
               {(isEnded || hasWinner) && (
                 <div className="alert alert-info shadow-lg max-w-md">
                   <span className="text-xl font-semibold">

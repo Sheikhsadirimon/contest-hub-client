@@ -50,6 +50,15 @@ const Navbar = () => {
       <Link to="/all-contests">
         <li className="m-2">All Contests</li>
       </Link>
+      <Link to="/leaderboard">
+        <li className="m-2">Leaderboard</li>
+      </Link>
+      <Link to="/how-it-works">
+        <li className="m-2">How It Works</li>
+      </Link>
+      <Link to="/faq">
+        <li className="m-2">FAQ</li>
+      </Link>
     </>
   );
 
@@ -95,9 +104,12 @@ const Navbar = () => {
 
         <Link
           to="/"
-          className="text-xl flex items-center gap-1 font-bold text-primary"
+          className="group text-xl flex items-center gap-1 font-bold text-primary"
         >
-          <Zap className="w-7 h-7 text-primary-foreground" />
+          <Zap
+            className="w-7 h-7 text-primary-foreground transition-transform duration-300 group-hover:drop-shadow-[0_0_8px_rgba(99,102,241,0.8)] group-hover:scale-125 group-hover:rotate-12
+"
+          />
           <span className="text-2xl">ContestHub</span>
         </Link>
       </div>
