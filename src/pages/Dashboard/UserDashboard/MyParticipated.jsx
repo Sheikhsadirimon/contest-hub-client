@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import Loading from "../../../components/Loading/Loading";
 
 const MyParticipated = () => {
   const { user, loading: authLoading } = useAuth();
@@ -21,11 +22,7 @@ const MyParticipated = () => {
   });
 
   if (authLoading || isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (

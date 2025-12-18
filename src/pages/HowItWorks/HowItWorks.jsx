@@ -1,4 +1,3 @@
-// src/pages/HowItWorks.jsx
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -81,7 +80,7 @@ const HowItWorks = () => {
           <p className="text-2xl font-semibold mb-6">
             Ready to showcase your talent?
           </p>
-          <Link to={'/all-contests'} className="btn btn-primary btn-lg">
+          <Link to={"/all-contests"} className="btn btn-primary btn-lg">
             Explore Contests Now
           </Link>
         </div>

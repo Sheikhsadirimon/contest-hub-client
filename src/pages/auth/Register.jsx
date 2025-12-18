@@ -6,7 +6,7 @@ import * as z from "zod";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
-import useAxios from "../../hooks/useAxios"; // Your plain axios hook
+import useAxios from "../../hooks/useAxios";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -21,8 +21,8 @@ const registerSchema = z.object({
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { createUser, updateUser, signInWithGoogle } = useAuth(); // ← updateUser is correct
-  const axiosInstance = useAxios(); // Plain axios for registration
+  const { createUser, updateUser, signInWithGoogle } = useAuth();
+  const axiosInstance = useAxios();
   const navigate = useNavigate();
 
   const {
@@ -35,17 +35,14 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      // 1. Create user in Firebase
       const res = await createUser(data.email, data.password);
       const firebaseUser = res.user;
 
-      // 2. Update Firebase profile using the correct function
       await updateUser({
         displayName: data.name,
         photoURL: data.photo,
       });
 
-      // 3. Save user to MongoDB with role "user"
       await axiosInstance.post("/users", {
         uid: firebaseUser.uid,
         email: firebaseUser.email,
@@ -83,7 +80,9 @@ const Register = () => {
   return (
     <div className="flex justify-center min-h-screen items-center px-4">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-8">
-        <h2 className="font-bold text-2xl text-center mb-6">Signup Your Account</h2>
+        <h2 className="font-bold text-2xl text-center mb-6">
+          Signup Your Account
+        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="card-body pt-0">
           {/* Name */}
@@ -94,17 +93,21 @@ const Register = () => {
             <input
               type="text"
               placeholder="Enter your name"
-              className={`input input-bordered ${errors.name ? "input-error" : ""}`}
+              className={`input input-bordered ${
+                errors.name ? "input-error" : ""
+              }`}
               {...register("name")}
             />
             {errors.name && (
               <label className="label">
-                <span className="label-text-alt text-error">{errors.name.message}</span>
+                <span className="label-text-alt text-error">
+                  {errors.name.message}
+                </span>
               </label>
             )}
           </div>
 
-          {/* Email */}
+          {/* Emails */}
           <div className="form-control">
             <label className="label">
               <span className="label-text font-medium">Email</span>
@@ -112,12 +115,16 @@ const Register = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className={`input input-bordered ${errors.email ? "input-error" : ""}`}
+              className={`input input-bordered ${
+                errors.email ? "input-error" : ""
+              }`}
               {...register("email")}
             />
             {errors.email && (
               <label className="label">
-                <span className="label-text-alt text-error">{errors.email.message}</span>
+                <span className="label-text-alt text-error">
+                  {errors.email.message}
+                </span>
               </label>
             )}
           </div>
@@ -130,17 +137,21 @@ const Register = () => {
             <input
               type="text"
               placeholder="https://example.com/photo.jpg"
-              className={`input input-bordered ${errors.photo ? "input-error" : ""}`}
+              className={`input input-bordered ${
+                errors.photo ? "input-error" : ""
+              }`}
               {...register("photo")}
             />
             {errors.photo && (
               <label className="label">
-                <span className="label-text-alt text-error">{errors.photo.message}</span>
+                <span className="label-text-alt text-error">
+                  {errors.photo.message}
+                </span>
               </label>
             )}
           </div>
 
-          {/* Password */}
+          {/* Password.. */}
           <div className="form-control relative">
             <label className="label">
               <span className="label-text font-medium">Password</span>
@@ -148,7 +159,9 @@ const Register = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className={`input input-bordered pr-12 ${errors.password ? "input-error" : ""}`}
+              className={`input input-bordered pr-12 ${
+                errors.password ? "input-error" : ""
+              }`}
               {...register("password")}
             />
             <button
@@ -160,7 +173,9 @@ const Register = () => {
             </button>
             {errors.password && (
               <label className="label">
-                <span className="label-text-alt text-error">{errors.password.message}</span>
+                <span className="label-text-alt text-error">
+                  {errors.password.message}
+                </span>
               </label>
             )}
           </div>
@@ -187,17 +202,32 @@ const Register = () => {
               viewBox="0 0 512 512"
               className="mr-3"
             >
-              <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341" />
-              <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57" />
-              <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73" />
-              <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55" />
+              <path
+                fill="#34a853"
+                d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+              />
+              <path
+                fill="#4285f4"
+                d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+              />
+              <path
+                fill="#fbbc02"
+                d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+              />
+              <path
+                fill="#ea4335"
+                d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+              />
             </svg>
             Continue with Google
           </button>
 
           <p className="text-center mt-6 text-sm">
             Already have an account?{" "}
-            <Link to="/auth/login" className="font-bold text-primary hover:underline">
+            <Link
+              to="/auth/login"
+              className="font-bold text-primary hover:underline"
+            >
               Login
             </Link>
           </p>

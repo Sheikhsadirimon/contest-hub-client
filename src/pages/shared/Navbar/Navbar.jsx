@@ -10,9 +10,8 @@ const Navbar = () => {
   const axiosSecure = useAxiosSecure();
 
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
-  const [backendUser, setBackendUser] = useState(null); // User data from backend
+  const [backendUser, setBackendUser] = useState(null);
 
-  // Fetch user profile from backend whenever authUser changes
   useEffect(() => {
     if (authUser?.uid) {
       axiosSecure
@@ -62,7 +61,6 @@ const Navbar = () => {
     </>
   );
 
-  // Prioritize backend data, fallback to Firebase auth
   const displayName =
     backendUser?.displayName ||
     authUser?.displayName ||

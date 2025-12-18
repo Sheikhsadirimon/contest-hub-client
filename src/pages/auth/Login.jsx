@@ -17,7 +17,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, signInWithGoogle } = useAuth();
   const location = useLocation();
-  const axiosInstance= useAxios()
+  const axiosInstance = useAxios();
   const navigate = useNavigate();
 
   const {
@@ -38,29 +38,30 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
-      try {
-        const res = await signInWithGoogle();
-        const firebaseUser = res.user;
-  
-        await axiosInstance.post("/users", {
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          displayName: firebaseUser.displayName || "",
-          photoURL: firebaseUser.photoURL || "",
-        });
-  
-        toast.success("Signed up with Google!");
-        navigate("/");
-      } catch (error) {
-        console.error(error);
-       
-      }
-    };
+    try {
+      const res = await signInWithGoogle();
+      const firebaseUser = res.user;
+
+      await axiosInstance.post("/users", {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        displayName: firebaseUser.displayName || "",
+        photoURL: firebaseUser.photoURL || "",
+      });
+
+      toast.success("Signed up with Google!");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex justify-center min-h-screen items-center px-4">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-8">
-        <h2 className="font-bold text-2xl text-center mb-6">Login Your Account</h2>
+        <h2 className="font-bold text-2xl text-center mb-6">
+          Login Your Account
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="card-body pt-0">
           <div className="form-control">
             <label className="label">
@@ -69,12 +70,16 @@ const Login = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className={`input input-bordered ${errors.email ? "input-error" : ""}`}
+              className={`input input-bordered ${
+                errors.email ? "input-error" : ""
+              }`}
               {...register("email")}
             />
             {errors.email && (
               <label className="label">
-                <span className="label-text-alt text-error">{errors.email.message}</span>
+                <span className="label-text-alt text-error">
+                  {errors.email.message}
+                </span>
               </label>
             )}
           </div>
@@ -86,7 +91,9 @@ const Login = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className={`input input-bordered pr-12 ${errors.password ? "input-error" : ""}`}
+              className={`input input-bordered pr-12 ${
+                errors.password ? "input-error" : ""
+              }`}
               {...register("password")}
             />
             <button
@@ -98,16 +105,14 @@ const Login = () => {
             </button>
             {errors.password && (
               <label className="label">
-                <span className="label-text-alt text-error">{errors.password.message}</span>
+                <span className="label-text-alt text-error">
+                  {errors.password.message}
+                </span>
               </label>
             )}
           </div>
 
-          <div className="mt-2">
-            
-              Forgot password?
-            
-          </div>
+          <div className="mt-2">Forgot password?</div>
 
           <button
             type="submit"
@@ -153,7 +158,10 @@ const Login = () => {
 
           <p className="text-center mt-6 text-sm">
             Don't have an account?{" "}
-            <Link to="/auth/signup" className="font-bold text-primary hover:underline">
+            <Link
+              to="/auth/signup"
+              className="font-bold text-primary hover:underline"
+            >
               Sign Up
             </Link>
           </p>

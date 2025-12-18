@@ -25,7 +25,9 @@ const AllContests = () => {
     const fetchContests = async () => {
       try {
         const response = await axiosInstance.get("/contests");
-        const approvedContests = response.data.filter(contest => contest.status === "approved");
+        const approvedContests = response.data.filter(
+          (contest) => contest.status === "approved"
+        );
         setContests(approvedContests);
         setFilteredContests(approvedContests);
       } catch (error) {
@@ -38,20 +40,21 @@ const AllContests = () => {
     fetchContests();
   }, [axiosInstance]);
 
-  // Extract category from URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const urlCategory = params.get("category");
 
     if (urlCategory) {
       const normalizedCategory = urlCategory.trim();
-      const matchedCategory = categories.find(cat => 
-        cat.toLowerCase() === normalizedCategory.toLowerCase()
+      const matchedCategory = categories.find(
+        (cat) => cat.toLowerCase() === normalizedCategory.toLowerCase()
       );
 
       if (matchedCategory) {
         setActiveTab(matchedCategory);
-        setFilteredContests(contests.filter(c => c.category === matchedCategory));
+        setFilteredContests(
+          contests.filter((c) => c.category === matchedCategory)
+        );
       } else {
         setActiveTab("All");
         setFilteredContests(contests);
@@ -59,16 +62,16 @@ const AllContests = () => {
     }
   }, [location.search, contests]);
 
-  const categories = ["All", ...new Set(contests.map(c => c.category))];
+  const categories = ["All", ...new Set(contests.map((c) => c.category))];
 
   const handleTabChange = (category) => {
     setActiveTab(category);
 
     if (category === "All") {
       setFilteredContests(contests);
-      navigate("/all-contests"); // Clear URL param
+      navigate("/all-contests");
     } else {
-      setFilteredContests(contests.filter(c => c.category === category));
+      setFilteredContests(contests.filter((c) => c.category === category));
       navigate(`/all-contests?category=${encodeURIComponent(category)}`);
     }
   };
@@ -115,7 +118,9 @@ const AllContests = () => {
         {/* Contests Grid */}
         {filteredContests.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-xl text-base-content/60">No contests found in this category.</p>
+            <p className="text-xl text-base-content/60">
+              No contests found in this category.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -156,7 +161,11 @@ const AllContests = () => {
                   </p>
 
                   <div className="mt-4 flex items-center text-sm text-base-content/60">
-                    <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+                      className="w-5 h-5 mr-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
                     </svg>
                     {contest.participants?.toLocaleString() || 0} participants

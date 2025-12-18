@@ -1,10 +1,8 @@
-// src/components/Banner.jsx
 import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -44,7 +42,6 @@ const Banner = () => {
         );
       }
 
-      // Navigate with results (AllContests will display them)
       navigate(`/all-contests?category=${encodeURIComponent(term)}`);
     } catch (error) {
       Swal.fire("Error", "Failed to search contests", "error");

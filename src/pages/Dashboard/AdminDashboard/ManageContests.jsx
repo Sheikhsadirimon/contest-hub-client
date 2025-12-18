@@ -1,8 +1,8 @@
-// src/pages/Dashboard/ManageContests.jsx
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../components/Loading/Loading";
 
 const ManageContests = () => {
   const axiosSecure = useAxiosSecure();
@@ -74,11 +74,7 @@ const ManageContests = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-20">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (

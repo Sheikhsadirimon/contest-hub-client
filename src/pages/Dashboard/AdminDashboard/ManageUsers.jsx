@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../components/Loading/Loading";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -73,7 +74,6 @@ const ManageUsers = () => {
     });
   };
 
-  // Pagination logic
   const totalPages = Math.ceil(users.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -84,11 +84,7 @@ const ManageUsers = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-20">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (

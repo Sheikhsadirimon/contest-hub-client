@@ -1,4 +1,3 @@
-// src/pages/Dashboard/MyProfile.jsx
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -12,6 +11,7 @@ import {
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../components/Loading/Loading";
 
 const MyProfile = () => {
   const { user, loading: authLoading } = useAuth();
@@ -22,7 +22,6 @@ const MyProfile = () => {
   const [photoURL, setPhotoURL] = useState("");
   const [address, setAddress] = useState("");
 
-  // Fetch user profile from MongoDB
   const { data: profile = {}, isLoading: profileLoading } = useQuery({
     queryKey: ["userProfile", user?.uid],
     queryFn: async () => {
@@ -33,7 +32,6 @@ const MyProfile = () => {
     enabled: !!user?.uid,
   });
 
-  // Fetch participated contests
   const { data: participated = [] } = useQuery({
     queryKey: ["myParticipated", user?.uid],
     queryFn: async () => {
@@ -43,7 +41,6 @@ const MyProfile = () => {
     enabled: !!user?.uid,
   });
 
-  // Calculate wins
   const wonCount = participated.filter(
     (c) => c.winner?.uid === user?.uid
   ).length;
@@ -62,7 +59,6 @@ const MyProfile = () => {
     },
   ];
 
-  // Update profile
   const updateMutation = useMutation({
     mutationFn: async (data) => {
       await axiosSecure.patch(`/user/${user.uid}`, data);
@@ -89,7 +85,6 @@ const MyProfile = () => {
     });
   };
 
-  // Set form values when profile or user loads
   useEffect(() => {
     setName(profile.displayName || user?.displayName || "");
     setPhotoURL(profile.photoURL || user?.photoURL || "");
@@ -97,11 +92,7 @@ const MyProfile = () => {
   }, [profile, user]);
 
   if (authLoading || profileLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (

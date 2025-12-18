@@ -1,4 +1,3 @@
-// src/pages/Dashboard/MyContests.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -6,6 +5,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Loading from "../../../components/Loading/Loading";
 
 const MyContests = () => {
   const axiosSecure = useAxiosSecure();
@@ -38,7 +38,11 @@ const MyContests = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["myContests"]);
-      Swal.fire("Updated!", "Contest has been updated successfully.", "success");
+      Swal.fire(
+        "Updated!",
+        "Contest has been updated successfully.",
+        "success"
+      );
       setSelectedContest(null);
       setDeadline(null);
     },
@@ -85,11 +89,7 @@ const MyContests = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-20">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (
@@ -130,7 +130,9 @@ const MyContests = () => {
                     <th>{index + 1}</th>
                     <td className="font-semibold">{contest.name}</td>
                     <td>
-                      <span className="text-primary font-bold">${contest.prize}</span>
+                      <span className="text-primary font-bold">
+                        ${contest.prize}
+                      </span>
                     </td>
                     <td>
                       <div
@@ -163,7 +165,9 @@ const MyContests = () => {
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDelete(contest._id, contest.name)}
+                            onClick={() =>
+                              handleDelete(contest._id, contest.name)
+                            }
                             className="btn btn-error btn-sm"
                           >
                             Delete
@@ -190,13 +194,20 @@ const MyContests = () => {
         {selectedContest && (
           <dialog open className="modal modal-bottom sm:modal-middle">
             <div className="modal-box max-w-4xl">
-              <h3 className="font-bold text-3xl mb-6 text-center">Edit Contest</h3>
-              <form onSubmit={handleUpdate} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <h3 className="font-bold text-3xl mb-6 text-center">
+                Edit Contest
+              </h3>
+              <form
+                onSubmit={handleUpdate}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+              >
                 {/* Left Column */}
                 <div className="space-y-6">
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Contest Name</span>
+                      <span className="label-text font-semibold text-lg">
+                        Contest Name
+                      </span>
                     </label>
                     <input
                       type="text"
@@ -209,7 +220,9 @@ const MyContests = () => {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Image URL</span>
+                      <span className="label-text font-semibold text-lg">
+                        Image URL
+                      </span>
                     </label>
                     <input
                       type="url"
@@ -222,7 +235,9 @@ const MyContests = () => {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Contest Type</span>
+                      <span className="label-text font-semibold text-lg">
+                        Contest Type
+                      </span>
                     </label>
                     <select
                       name="category"
@@ -241,10 +256,14 @@ const MyContests = () => {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Entry Fee</span>
+                      <span className="label-text font-semibold text-lg">
+                        Entry Fee
+                      </span>
                     </label>
                     <div className="input-group">
-                      <span className="bg-primary text-primary-content text-lg font-bold">$</span>
+                      <span className="bg-primary text-primary-content text-lg font-bold">
+                        $
+                      </span>
                       <input
                         type="number"
                         name="price"
@@ -259,10 +278,14 @@ const MyContests = () => {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Prize Money</span>
+                      <span className="label-text font-semibold text-lg">
+                        Prize Money
+                      </span>
                     </label>
                     <div className="input-group">
-                      <span className="bg-primary text-primary-content text-lg font-bold">$</span>
+                      <span className="bg-primary text-primary-content text-lg font-bold">
+                        $
+                      </span>
                       <input
                         type="number"
                         name="prize"
@@ -278,7 +301,9 @@ const MyContests = () => {
                 <div className="space-y-6">
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Description</span>
+                      <span className="label-text font-semibold text-lg">
+                        Description
+                      </span>
                     </label>
                     <textarea
                       name="description"
@@ -290,7 +315,9 @@ const MyContests = () => {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Task Instruction</span>
+                      <span className="label-text font-semibold text-lg">
+                        Task Instruction
+                      </span>
                     </label>
                     <textarea
                       name="taskInstruction"
@@ -302,7 +329,9 @@ const MyContests = () => {
 
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text font-semibold text-lg">Deadline</span>
+                      <span className="label-text font-semibold text-lg">
+                        Deadline
+                      </span>
                     </label>
                     <DatePicker
                       selected={deadline}

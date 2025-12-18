@@ -135,7 +135,7 @@ const Leaderboard = () => {
           </div>
         )}
 
-        {/* Rest of the Leaderboard */}
+        {/* Rest of the leaderboard */}
         {rest.length > 0 && (
           <div className="card bg-base-100 shadow-2xl">
             <div className="card-body">

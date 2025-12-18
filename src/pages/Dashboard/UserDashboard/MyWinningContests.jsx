@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import Loading from "../../../components/Loading/Loading";
 
 const MyWinningContests = () => {
   const { user, loading: authLoading } = useAuth();
@@ -10,24 +11,18 @@ const MyWinningContests = () => {
   const { data: winningContests = [], isLoading } = useQuery({
     queryKey: ["myWinnings", user?.uid],
     queryFn: async () => {
-      // Fetch participated contests first
       const participatedRes = await axiosSecure.get("/my-participated");
       const participated = participatedRes.data;
 
-      // Filter only those where user is the winner
-      return participated.filter(contest => 
-        contest.winner && contest.winner.uid === user.uid
+      return participated.filter(
+        (contest) => contest.winner && contest.winner.uid === user.uid
       );
     },
     enabled: !!user?.uid,
   });
 
   if (authLoading || isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (
@@ -46,7 +41,8 @@ const MyWinningContests = () => {
           <div className="text-9xl mb-8">🥈</div>
           <h3 className="text-3xl font-bold mb-4">No Wins Yet</h3>
           <p className="text-lg text-base-content/70 max-w-md mx-auto">
-            Keep participating and submitting your best work — your trophy moment is coming soon!
+            Keep participating and submitting your best work — your trophy
+            moment is coming soon!
           </p>
           <div className="mt-8">
             <span className="text-6xl">💪</span>
@@ -74,7 +70,9 @@ const MyWinningContests = () => {
                   <p className="text-5xl font-extrabold text-amber-600">
                     ${contest.prize}
                   </p>
-                  <p className="text-lg text-amber-700 font-medium">Prize Won</p>
+                  <p className="text-lg text-amber-700 font-medium">
+                    Prize Won
+                  </p>
                 </div>
 
                 <div className="space-y-2 text-black">

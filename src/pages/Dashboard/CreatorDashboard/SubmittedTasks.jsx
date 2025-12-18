@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import Countdown from "react-countdown";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../components/Loading/Loading";
 
 const SubmittedTasks = () => {
   const { user } = useAuth();
@@ -12,7 +13,6 @@ const SubmittedTasks = () => {
 
   const [selectedSubmission, setSelectedSubmission] = useState(null);
 
-  // Fetch creator's contests
   const { data: contests = [], isLoading: contestsLoading } = useQuery({
     queryKey: ["creatorContests", user?.uid],
     queryFn: async () => {
@@ -21,7 +21,6 @@ const SubmittedTasks = () => {
     },
   });
 
-  // Fetch all submissions
   const { data: submissions = [], isLoading: submissionsLoading } = useQuery({
     queryKey: ["creatorSubmissions", contests],
     queryFn: async () => {
@@ -47,7 +46,7 @@ const SubmittedTasks = () => {
           uid: winnerUid,
           name: winnerName,
           photoURL: winnerPhotoURL,
-          declaredAt: new Date().toISOString(), // ← This adds the timestamp
+          declaredAt: new Date().toISOString(),
         },
       });
       return res.data;
@@ -65,7 +64,7 @@ const SubmittedTasks = () => {
                   uid: variables.winnerUid,
                   name: variables.winnerName,
                   photoURL: variables.winnerPhotoURL,
-                  declaredAt: new Date().toISOString(), // Optimistic timestamp
+                  declaredAt: new Date().toISOString(),
                 },
               }
             : c
@@ -140,11 +139,7 @@ const SubmittedTasks = () => {
   };
 
   if (contestsLoading || submissionsLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (

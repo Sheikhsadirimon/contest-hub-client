@@ -1,4 +1,3 @@
-// src/pages/Dashboard/Dashboard.jsx
 import React, { useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,7 +12,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // Fetch user data from backend
   const {
     data: userData,
     isLoading: roleLoading,
@@ -31,7 +29,6 @@ const Dashboard = () => {
 
   const userRole = userData?.role || "user";
 
-  // Safe navigation
   useEffect(() => {
     if (!authLoading && !authUser) {
       navigate("/login");
@@ -44,7 +41,6 @@ const Dashboard = () => {
     }
   }, [roleError, navigate]);
 
-  // Invalidate user query on mount/focus to refresh after profile update
   useEffect(() => {
     const handleFocus = () => {
       queryClient.invalidateQueries(["userRole", authUser?.uid]);
@@ -57,7 +53,6 @@ const Dashboard = () => {
     return <Loading />;
   }
 
-  // Role-based links
   const getLinks = () => {
     if (userRole === "admin") {
       return [
@@ -91,7 +86,6 @@ const Dashboard = () => {
     }
   };
 
-  // Use backend data first, fallback to authUser
   const displayName =
     userData?.displayName ||
     authUser?.displayName ||

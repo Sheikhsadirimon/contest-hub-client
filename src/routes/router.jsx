@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
             <ContestDetails></ContestDetails>
           </PrivateRoute>
         ),
-        errorElement: <ErrorPage></ErrorPage>
+        errorElement: <ErrorPage></ErrorPage>,
       },
       {
         path: "/auth",

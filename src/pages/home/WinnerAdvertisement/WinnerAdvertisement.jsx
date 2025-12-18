@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router";
+import Loading from "../../../components/Loading/Loading";
 
 const WinnerAdvertisement = () => {
   const axiosSecure = useAxiosSecure();
@@ -9,24 +10,19 @@ const WinnerAdvertisement = () => {
   const { data: recentWinners = [], isLoading } = useQuery({
     queryKey: ["recentWinners"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/recent-winners"); // Returns last 3 contests with winners
+      const res = await axiosSecure.get("/recent-winners");
       return res.data;
     },
   });
 
-  const totalWinners = recentWinners.length; // Or fetch total if needed
+  const totalWinners = recentWinners.length;
 
   if (isLoading) {
-    return (
-      <div className="py-20 text-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (
     <section className="py-20 overflow-hidden relative">
-      {/* Background decoration */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-10 left-10 text-9xl">🏆</div>
         <div className="absolute bottom-20 right-20 text-8xl">💰</div>
@@ -80,9 +76,7 @@ const WinnerAdvertisement = () => {
         )}
 
         <div className="text-center mt-16">
-          <p className="text-3xl font-bold mb-4">
-            3 Talented Recent Winners!
-          </p>
+          <p className="text-3xl font-bold mb-4">3 Talented Recent Winners!</p>
           <p className="text-xl opacity-90">
             Your name could be next on this wall of fame.
           </p>

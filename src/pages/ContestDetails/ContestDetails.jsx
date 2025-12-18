@@ -1,4 +1,3 @@
-// src/pages/ContestDetails.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -6,6 +5,7 @@ import Swal from "sweetalert2";
 import Countdown from "react-countdown";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../../components/Loading/Loading";
 
 const ContestDetails = () => {
   const { id } = useParams();
@@ -27,7 +27,6 @@ const ContestDetails = () => {
     },
   });
 
-  // Fetch latest user data from backend (for accurate name/photo in submission)
   const { data: backendUser = {}, isLoading: userLoading } = useQuery({
     queryKey: ["backendUser", authUser?.uid],
     queryFn: async () => {
@@ -52,7 +51,6 @@ const ContestDetails = () => {
     enabled: !!authUser?.uid,
   });
 
-  // Check submission status
   const {
     data: submissionStatus,
     isLoading: submissionLoading,
@@ -77,12 +75,10 @@ const ContestDetails = () => {
   const participantCount = contest?.participants || 0;
   const hasSubmitted = submissionStatus === true;
 
-  // Use backend user data for submission
   const currentUserName =
     backendUser?.displayName || authUser?.displayName || authUser?.email;
   const currentPhotoURL = backendUser?.photoURL || authUser?.photoURL || "";
 
-  // Handle payment success
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     if (query.get("payment") === "success") {
@@ -189,11 +185,7 @@ const ContestDetails = () => {
     paymentLoading ||
     submissionLoading
   ) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   return (
@@ -241,7 +233,7 @@ const ContestDetails = () => {
               />
             )}
 
-            {/* Description & Task */}
+            {/* Description and Tasks */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 my-12">
               <div>
                 <h3 className="text-3xl font-bold mb-6">Contest Description</h3>

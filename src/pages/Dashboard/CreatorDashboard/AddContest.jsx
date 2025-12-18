@@ -1,4 +1,3 @@
-// src/pages/Dashboard/AddContest.jsx
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
@@ -62,45 +61,74 @@ const AddContest = () => {
               Create New Contest
             </h2>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+            >
               {/* Left Column */}
               <div className="space-y-6">
                 {/* Contest Name */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Contest Name</span>
+                    <span className="label-text font-semibold text-lg">
+                      Contest Name
+                    </span>
                   </label>
                   <input
                     type="text"
                     placeholder="e.g. UI/UX Design Challenge 2025"
-                    className={`input input-bordered input-lg w-full ${errors.name ? "input-error" : ""}`}
-                    {...register("name", { required: "Contest name is required" })}
+                    className={`input input-bordered input-lg w-full ${
+                      errors.name ? "input-error" : ""
+                    }`}
+                    {...register("name", {
+                      required: "Contest name is required",
+                    })}
                   />
-                  {errors.name && <p className="text-error text-sm mt-1">{errors.name.message}</p>}
+                  {errors.name && (
+                    <p className="text-error text-sm mt-1">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Image URL */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Image URL</span>
+                    <span className="label-text font-semibold text-lg">
+                      Image URL
+                    </span>
                   </label>
                   <input
                     type="url"
                     placeholder="https://example.com/contest-image.jpg"
-                    className={`input input-bordered input-lg w-full ${errors.image ? "input-error" : ""}`}
-                    {...register("image", { required: "Image URL is required" })}
+                    className={`input input-bordered input-lg w-full ${
+                      errors.image ? "input-error" : ""
+                    }`}
+                    {...register("image", {
+                      required: "Image URL is required",
+                    })}
                   />
-                  {errors.image && <p className="text-error text-sm mt-1">{errors.image.message}</p>}
+                  {errors.image && (
+                    <p className="text-error text-sm mt-1">
+                      {errors.image.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Contest Type */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Contest Type</span>
+                    <span className="label-text font-semibold text-lg">
+                      Contest Type
+                    </span>
                   </label>
                   <select
-                    className={`select select-bordered select-lg w-full ${errors.category ? "select-error" : ""}`}
-                    {...register("category", { required: "Contest type is required" })}
+                    className={`select select-bordered select-lg w-full ${
+                      errors.category ? "select-error" : ""
+                    }`}
+                    {...register("category", {
+                      required: "Contest type is required",
+                    })}
                   >
                     <option value="">Select a category</option>
                     <option value="Design">Design</option>
@@ -110,43 +138,72 @@ const AddContest = () => {
                     <option value="Photography">Photography</option>
                     <option value="Video Editing">Video Editing</option>
                   </select>
-                  {errors.category && <p className="text-error text-sm mt-1">{errors.category.message}</p>}
+                  {errors.category && (
+                    <p className="text-error text-sm mt-1">
+                      {errors.category.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Entry Fee */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Entry Fee</span>
+                    <span className="label-text font-semibold text-lg">
+                      Entry Fee
+                    </span>
                   </label>
                   <div className="input-group">
-                    <span className="bg-primary text-primary-content text-lg font-bold">$</span>
+                    <span className="bg-primary text-primary-content text-lg font-bold">
+                      $
+                    </span>
                     <input
                       type="number"
                       min="0"
                       step="0.01"
                       placeholder="10.00"
-                      className={`input input-bordered input-lg flex-1 ${errors.price ? "input-error" : ""}`}
-                      {...register("price", { required: "Entry fee is required", min: { value: 0, message: "Fee cannot be negative" } })}
+                      className={`input input-bordered input-lg flex-1 ${
+                        errors.price ? "input-error" : ""
+                      }`}
+                      {...register("price", {
+                        required: "Entry fee is required",
+                        min: { value: 0, message: "Fee cannot be negative" },
+                      })}
                     />
                   </div>
-                  {errors.price && <p className="text-error text-sm mt-1">{errors.price.message}</p>}
+                  {errors.price && (
+                    <p className="text-error text-sm mt-1">
+                      {errors.price.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Prize Money */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Prize Money</span>
+                    <span className="label-text font-semibold text-lg">
+                      Prize Money
+                    </span>
                   </label>
                   <div className="input-group">
-                    <span className="bg-primary text-primary-content text-lg font-bold">$</span>
+                    <span className="bg-primary text-primary-content text-lg font-bold">
+                      $
+                    </span>
                     <input
                       type="number"
                       placeholder="5,000"
-                      className={`input input-bordered input-lg flex-1 ${errors.prize ? "input-error" : ""}`}
-                      {...register("prize", { required: "Prize money is required" })}
+                      className={`input input-bordered input-lg flex-1 ${
+                        errors.prize ? "input-error" : ""
+                      }`}
+                      {...register("prize", {
+                        required: "Prize money is required",
+                      })}
                     />
                   </div>
-                  {errors.prize && <p className="text-error text-sm mt-1">{errors.prize.message}</p>}
+                  {errors.prize && (
+                    <p className="text-error text-sm mt-1">
+                      {errors.prize.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -155,33 +212,55 @@ const AddContest = () => {
                 {/* Description */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Description</span>
+                    <span className="label-text font-semibold text-lg">
+                      Description
+                    </span>
                   </label>
                   <textarea
                     placeholder="Describe your contest in detail..."
-                    className={`textarea textarea-bordered textarea-lg h-40 w-full ${errors.description ? "textarea-error" : ""}`}
-                    {...register("description", { required: "Description is required" })}
+                    className={`textarea textarea-bordered textarea-lg h-40 w-full ${
+                      errors.description ? "textarea-error" : ""
+                    }`}
+                    {...register("description", {
+                      required: "Description is required",
+                    })}
                   />
-                  {errors.description && <p className="text-error text-sm mt-1">{errors.description.message}</p>}
+                  {errors.description && (
+                    <p className="text-error text-sm mt-1">
+                      {errors.description.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Task Instruction */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Task Instruction</span>
+                    <span className="label-text font-semibold text-lg">
+                      Task Instruction
+                    </span>
                   </label>
                   <textarea
                     placeholder="Explain what participants need to submit..."
-                    className={`textarea textarea-bordered textarea-lg h-48 w-full ${errors.taskInstruction ? "textarea-error" : ""}`}
-                    {...register("taskInstruction", { required: "Task instruction is required" })}
+                    className={`textarea textarea-bordered textarea-lg h-48 w-full ${
+                      errors.taskInstruction ? "textarea-error" : ""
+                    }`}
+                    {...register("taskInstruction", {
+                      required: "Task instruction is required",
+                    })}
                   />
-                  {errors.taskInstruction && <p className="text-error text-sm mt-1">{errors.taskInstruction.message}</p>}
+                  {errors.taskInstruction && (
+                    <p className="text-error text-sm mt-1">
+                      {errors.taskInstruction.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Deadline */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-lg">Deadline</span>
+                    <span className="label-text font-semibold text-lg">
+                      Deadline
+                    </span>
                   </label>
                   <DatePicker
                     selected={deadline}
@@ -192,13 +271,19 @@ const AddContest = () => {
                     dateFormat="MMMM d, yyyy h:mm aa"
                     minDate={new Date()}
                     placeholderText="Select deadline date and time"
-                    className={`input input-bordered input-lg w-full ${!deadline ? "border-error focus:border-error" : ""}`}
+                    className={`input input-bordered input-lg w-full ${
+                      !deadline ? "border-error focus:border-error" : ""
+                    }`}
                   />
-                  {!deadline && <p className="text-error text-sm mt-1">Deadline is required</p>}
+                  {!deadline && (
+                    <p className="text-error text-sm mt-1">
+                      Deadline is required
+                    </p>
+                  )}
                 </div>
               </div>
 
-              {/* Submit Button - Full Width */}
+              {/* Submit Button */}
               <div className="lg:col-span-2 mt-10">
                 <button
                   type="submit"

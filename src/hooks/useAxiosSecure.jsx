@@ -12,12 +12,11 @@ const useAxiosSecure = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Request Interceptor: Add Firebase ID token
     const requestInterceptor = axiosSecure.interceptors.request.use(
       async (config) => {
         if (user) {
           try {
-            const token = await user.getIdToken(); // ← Correct way to get Firebase token
+            const token = await user.getIdToken();
             config.headers.Authorization = `Bearer ${token}`;
           } catch (error) {
             console.error("Error getting Firebase ID token:", error);
@@ -28,7 +27,6 @@ const useAxiosSecure = () => {
       (error) => Promise.reject(error)
     );
 
-    // Response Interceptor: Handle 401/403
     const responseInterceptor = axiosSecure.interceptors.response.use(
       (response) => response,
       async (error) => {
@@ -48,7 +46,6 @@ const useAxiosSecure = () => {
       }
     );
 
-    // Cleanup interceptors on unmount
     return () => {
       axiosSecure.interceptors.request.eject(requestInterceptor);
       axiosSecure.interceptors.response.eject(responseInterceptor);

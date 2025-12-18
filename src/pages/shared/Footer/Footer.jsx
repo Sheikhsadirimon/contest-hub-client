@@ -11,7 +11,6 @@ const Footer = () => {
           <p className="font-bold text-2xl">ContestHub</p>
         </div>
         <p className="font-bold">
-          
           Providing reliable contest hosting since 1992
         </p>
         <p>Copyright © 2025 ContestHub</p>
