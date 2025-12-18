@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import useAxios from "../../hooks/useAxios";
@@ -8,6 +8,8 @@ import Loading from "../../components/Loading/Loading";
 const AllContests = () => {
   const axiosInstance = useAxios();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [contests, setContests] = useState([]);
   const [filteredContests, setFilteredContests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +25,6 @@ const AllContests = () => {
     const fetchContests = async () => {
       try {
         const response = await axiosInstance.get("/contests");
-        
         const approvedContests = response.data.filter(contest => contest.status === "approved");
         setContests(approvedContests);
         setFilteredContests(approvedContests);
@@ -37,15 +38,38 @@ const AllContests = () => {
     fetchContests();
   }, [axiosInstance]);
 
-  
+  // Extract category from URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const urlCategory = params.get("category");
+
+    if (urlCategory) {
+      const normalizedCategory = urlCategory.trim();
+      const matchedCategory = categories.find(cat => 
+        cat.toLowerCase() === normalizedCategory.toLowerCase()
+      );
+
+      if (matchedCategory) {
+        setActiveTab(matchedCategory);
+        setFilteredContests(contests.filter(c => c.category === matchedCategory));
+      } else {
+        setActiveTab("All");
+        setFilteredContests(contests);
+      }
+    }
+  }, [location.search, contests]);
+
   const categories = ["All", ...new Set(contests.map(c => c.category))];
 
   const handleTabChange = (category) => {
     setActiveTab(category);
+
     if (category === "All") {
       setFilteredContests(contests);
+      navigate("/all-contests"); // Clear URL param
     } else {
       setFilteredContests(contests.filter(c => c.category === category));
+      navigate(`/all-contests?category=${encodeURIComponent(category)}`);
     }
   };
 
@@ -69,7 +93,7 @@ const AllContests = () => {
           </p>
         </div>
 
-       
+        {/* Category Tabs */}
         <div className="flex justify-center mb-12">
           <div className="tabs tabs-boxed bg-base-300 p-2 rounded-xl shadow-lg">
             {categories.map((category) => (
@@ -88,7 +112,7 @@ const AllContests = () => {
           </div>
         </div>
 
-        
+        {/* Contests Grid */}
         {filteredContests.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-xl text-base-content/60">No contests found in this category.</p>
