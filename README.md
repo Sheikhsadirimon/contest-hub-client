@@ -1,25 +1,33 @@
-Website name : ContestHub
+Contest Hub
 
-Live site URL : https://classy-crisp-91eb92.netlify.app
+🚀 ContestHub – Online Contest Hosting Platform
 
-======== Bullet points ========
+ContestHub is a web-based platform where creators can host contests and users can participate by paying an entry fee for a chance to win exciting prizes.
 
-1.Change theme as u like
+🔹 Project Overview
 
-2.Search by category for your easy access
+Allows contest creators to create, manage, and host contests
 
-3.Popular contest sorted by participant count
+Enables users to browse contests, pay an entry amount, and participate
 
-4.Tabs in All Contest for easy access 
+Designed to provide a secure and engaging contest experience
 
-5.Leaderboard podium for top 3 user and rest in a table format 
+🔧 Key Features
 
-6.How it works page to know learn about creator , admin etc
+User authentication for creators and participants
 
-7.FAQ Frequently asked questions can be answered easily
+Contest creation and management dashboard
 
-8.Pagination added for admin dashboard manage users
+Secure payment-based contest entry system
 
-9.Admin cannot change other admin's role
+Responsive and user-friendly UI
 
-10.Creator can only declare winner after the deadline.
+🛠 Technologies Used
+
+React
+
+Next.js
+
+Tailwind CSS
+
+MongoDB
