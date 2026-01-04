@@ -1,4 +1,4 @@
-Contest Hub
+<h1> Contest Hub </h1>
 
 🚀 ContestHub – Online Contest Hosting Platform
 
@@ -22,12 +22,16 @@ Secure payment-based contest entry system
 
 Responsive and user-friendly UI
 
-🛠 Technologies Used
+🛠 Technologies And Dependencies Used
 
 React
 
-Next.js
+Node.js
 
 Tailwind CSS
 
 MongoDB
+
+Express
+
+Axios
