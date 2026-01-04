@@ -49,3 +49,8 @@ Axios
 <h2>🖼️ Preview </h2> 
 
 <img  src="https://i.ibb.co.com/5gFrfHzn/69548d64e0ad035f13786fd8.jpg"  />
+
+<h2>🌟 Live Link </h2> 
+
+https://classy-crisp-91eb92.netlify.app
+
