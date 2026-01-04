@@ -37,6 +37,7 @@ Express
 Axios
 
 <h2>🚦 Running the Project </h2> 
+
 1. Clone the repository
 
 2. Install dependencies <b>npm install</b>
