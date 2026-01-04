@@ -38,9 +38,13 @@ Axios
 
 <h2>🚦 Running the Project </h2> 
 1. Clone the repository
+
 2. Install dependencies <b>npm install</b>
+
 3. Run development server: <b>npm run dev</b>
+
 4. Open localhost in your browser
+
 <h2>🖼️ Preview </h2> 
 
 <img  src="https://i.ibb.co.com/5gFrfHzn/69548d64e0ad035f13786fd8.jpg"  />
