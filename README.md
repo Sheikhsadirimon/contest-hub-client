@@ -1,6 +1,6 @@
 <h1> Contest Hub </h1>
 
-🚀 ContestHub – Online Contest Hosting Platform <h2> </h2> 
+<h2>🚀 ContestHub – Online Contest Hosting Platform </h2> 
 
 ContestHub is a web-based platform where creators can host contests and users can participate by paying an entry fee for a chance to win exciting prizes.
 
